@@ -47,6 +47,7 @@ extern HA device_dimmer_alarm_temp;
 extern xSemaphoreHandle mutex;
 
 extern bool boost();
+extern flat voltage;
 //***********************************
 //************* Variables locales
 //***********************************
@@ -243,6 +244,19 @@ WiFiClient espClient;
     if (WHtempgrid != 0 && WHtempinject !=0 ) { 
     client.unsubscribe(("memory/"+compteur_grid.topic+"#").c_str()); 
     }
+  //lecture tension dynamique
+    if (strcmp( topic, "esp32/power-mesure/general/Voltage" ) == 0 ) {
+  		if (isNumeric(arrivage)) {
+         char* endPtr;
+  			 double mqttValue = strtod(arrivage, &endPtr);
+  			 Serial.println("MQTT callback : voltage = "+String(arrivage));
+  			 if (mqttValue != 0){
+  				 voltage=mqttValue;
+  			 }
+  		}
+  	} else {
+  		Serial.println("MQTT callback : tension non numerique erreur pas de recuperation = "+String(arrivage));
+  	}
   }
 
 
@@ -280,6 +294,33 @@ WiFiClient espClient;
       if (strcmp(config.topic_Shelly,"none") != 0) 
         client.subscribe(config.topic_Shelly);
 
+  }
+  //***********************************
+  //************* isNumeric()
+  //***********************************
+  // check a string to see if it is numeric and accept Decimal point
+  bool isNumeric(char * str) {
+    byte ii = 0;
+    bool RetVal = false;
+    if ( '-' == str[ii] )
+      ii++;
+    while (str[ii])
+    {
+      if ( '.' == str[ii] ) {
+        ii++;
+        break;
+      }
+      if (!isdigit(str[ii])) return false;
+      ii++;
+      RetVal = true;
+    }
+    while (str[ii])
+    {
+      if (!isdigit(str[ii])) return false;
+      ii++;
+      RetVal = true;
+    }
+    return RetVal;
   }
 #endif //ifndef LIGHT_FIRMWARE
 #endif //ifndef MQTT_FUNCTIONS
