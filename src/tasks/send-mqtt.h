@@ -149,6 +149,7 @@ void send_to_mqtt(void * parameter) { // NOSONAR
                   client.publish(("memory/"+compteur_inject.topic+compteur_inject.Get_name()).c_str(), String(WHtempinject).c_str(),true);
                 }
               }
+              Mqtt_send(String(config.IDX), String(int(gDisplayValues.watt)),"ImportExport","Reseau");
               //maj 202030209
 
             #endif  // not LIGHT_FIRMWARE
