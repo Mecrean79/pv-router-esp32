@@ -6,6 +6,7 @@
 //***********************************
 #include "../config/enums.h"
 #include "../config/config.h"
+#include "functions/Mqtt_http_Functions.h"
 
 //***********************************
 //************* Variables externes
@@ -198,9 +199,9 @@ void injection2() {
   else {
     float tension = mesure_tension();
     positive = ( ( positive * tension  ) / ( FACTEURPUISSANCE * nombre_cycle * 230  ) );  
-    // Serial.println("tension: " + String(tension));
+    Serial.println("tension: " + String(tension));
   }
-
+  Serial.println("VoltageMqtt: " + String(VoltageMqtt));
   /// correction pour l'offset en fonction de comment est branchée la pince
   logging.clean_log_init();
   if ( zero > 75 ) { 
