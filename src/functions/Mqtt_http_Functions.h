@@ -47,7 +47,7 @@ extern HA device_dimmer_alarm_temp;
 extern xSemaphoreHandle mutex;
 
 extern bool boost();
-extern flat voltage;
+extern flat VoltageMqtt;
 //***********************************
 //************* Variables locales
 //***********************************
@@ -251,7 +251,7 @@ WiFiClient espClient;
   			 double mqttValue = strtod(arrivage, &endPtr);
   			 Serial.println("MQTT callback : voltage = "+String(arrivage));
   			 if (mqttValue != 0){
-  				 voltage=mqttValue;
+  				 VoltageMqtt=mqttValue;
   			 }
   		}
   	} else {
