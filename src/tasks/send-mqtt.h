@@ -149,6 +149,7 @@ void send_to_mqtt(void * parameter) { // NOSONAR
                   client.publish(("memory/"+compteur_inject.topic+compteur_inject.Get_name()).c_str(), String(WHtempinject).c_str(),true);
                 }
               }
+              //Ajout mqtt ImportExport = valeur conso instantanee negative ou positive
               Mqtt_send(String(config.IDX), String(int(gDisplayValues.watt)),"ImportExport","Reseau");
               //maj 202030209
 
